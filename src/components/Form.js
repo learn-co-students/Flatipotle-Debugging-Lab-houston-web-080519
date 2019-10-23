@@ -4,6 +4,7 @@ import FillingForm from './FillingForm'
 import ToppingForm from './ToppingForm'
 import SideForm from './SideForm'
 
+
 const DEFAULT_STATE = {
   protein: [],
   fillings: [],
@@ -11,28 +12,28 @@ const DEFAULT_STATE = {
   sides: []
 }
 
-class Form extends Component {
+export default class Form extends Component {
   state = {
     ...DEFAULT_STATE
   }
 
-  handleSubmit() {
-    event.preventDefault()
-    document.getElementById("order-form").reset()
-    this.props.addOrder(this.state)
+  // handleSubmit = (event) {
+  //   event.preventDefault()
+  //   document.getElementById("order-form").reset()
+  //   this.props.addOrder(this.state)
 
-    this.setState({
-      ...DEFAULT_STATE
-    })
-  }
+  //   this.setState({
+  //     ...DEFAULT_STATE
+  //   })
+  // }
 
-  handleChange() {
+  handleChange = (event) => {
     const itemType = event.target.name
     const item = event.target.value
 
     !this.state[`${itemType}`].includes(item) ?
       this.setState({
-        [itemType]: this.state[`${itemType}`].concat(item)
+        [itemType]: [...this.state[itemType], item]
       })
     :
       this.setState({
@@ -40,6 +41,11 @@ class Form extends Component {
           ingr => ingr !== item
         )
       })
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault()
+    this.props.addOrder(this.state)
   }
 
   render() {
@@ -76,4 +82,4 @@ class Form extends Component {
   }
 }
 
-export default Form
+
